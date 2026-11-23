@@ -23,6 +23,33 @@ body {
   line-height: 1.5;
 }
 
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .6rem 1rem;
+  padding-top: max(.6rem, env(safe-area-inset-top));
+  background: #172554;
+  color: #fff;
+}
+.navbar__marca { font-weight: 700; }
+.btn--nav { background: #fff; color: var(--primario); padding: .45rem .8rem; font-size: .85rem; }
+
+.aviso-ios {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: .75rem 1rem;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: .9rem;
+}
+.btn--cerrar { background: none; border: none; font-size: 1rem; color: inherit; cursor: pointer; }
+
 .cabecera {
   background: var(--primario);
   color: #fff;

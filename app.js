@@ -133,6 +133,46 @@ ui.form.addEventListener('submit', (e) => {
   mostrar(ui.salida.parentElement);
 });
 
+// ---------- Instalación de la PWA ----------
+let eventoInstalacionDiferido = null;
+const btnInstalar = $('btn-instalar');
+
+function estaInstalada() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true; // iOS
+}
+
+// Android / Chrome / Edge: capturamos el evento para usar nuestro botón
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  eventoInstalacionDiferido = event;
+  btnInstalar.hidden = false;
+});
+
+btnInstalar.addEventListener('click', () => {
+  if (!eventoInstalacionDiferido) return;
+  eventoInstalacionDiferido.prompt();
+  eventoInstalacionDiferido.userChoice
+    .then((resultado) => {
+      console.log('[PWA] Elección del usuario:', resultado.outcome);
+      if (resultado.outcome === 'accepted') btnInstalar.hidden = true;
+    })
+    .finally(() => { eventoInstalacionDiferido = null; });
+});
+
+window.addEventListener('appinstalled', () => {
+  btnInstalar.hidden = true;
+  console.log('[PWA] Aplicación instalada');
+});
+
+// iOS / Safari: no existe beforeinstallprompt, mostramos instrucciones manuales
+const esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS
+if (esIOS && !estaInstalada()) {
+  $('aviso-ios').hidden = false;
+}
+$('btn-cerrar-ios').addEventListener('click', () => { $('aviso-ios').hidden = true; });
+
 // ---------- Service Worker ----------
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

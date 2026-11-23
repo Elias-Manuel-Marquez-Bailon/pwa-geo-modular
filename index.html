@@ -6,9 +6,26 @@
   <meta name="theme-color" content="#1e40af">
   <title>Reporte Técnico Geo</title>
   <link rel="manifest" href="./manifest.json">
+  <!-- iOS: ícono de pantalla de inicio y modo standalone -->
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GeoReporte">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <nav class="navbar">
+    <span class="navbar__marca">📍 GeoReporte</span>
+    <button type="button" id="btn-instalar" class="btn btn--nav" hidden>⬇ Instalar App</button>
+  </nav>
+
+  <!-- iOS no dispara beforeinstallprompt: instrucciones manuales -->
+  <div id="aviso-ios" class="aviso-ios" hidden>
+    <span>Para instalar en iPhone: toca <b>Compartir</b> <span aria-hidden="true">⬆️</span> y luego <b>"Agregar a inicio"</b>.</span>
+    <button type="button" id="btn-cerrar-ios" class="btn--cerrar" aria-label="Cerrar">✕</button>
+  </div>
+
   <header class="cabecera">
     <h1>Reporte Técnico</h1>
     <p>Geolocalización consciente con <code>geo-helper.js</code></p>
