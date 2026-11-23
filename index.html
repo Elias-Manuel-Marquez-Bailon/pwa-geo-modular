@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1e40af">
+  <title>Reporte Técnico Geo</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <h1>Reporte Técnico</h1>
+    <p>Geolocalización consciente con <code>geo-helper.js</code></p>
+  </header>
+
+  <main class="contenedor">
+    <form id="form-reporte" class="tarjeta">
+      <label for="titulo">Título de la incidencia</label>
+      <input id="titulo" type="text" required placeholder="Ej. Falla en luminaria">
+
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" rows="3" placeholder="Describe el problema..."></textarea>
+
+      <button type="button" id="btn-adjuntar" class="btn btn--secundario">📍 Adjuntar mi ubicación</button>
+
+      <!-- Paso 1: Pre-permiso -->
+      <section id="tarjeta-prepermiso" class="aviso" hidden>
+        <h2>¿Por qué pedimos tu ubicación?</h2>
+        <p>Necesitamos tu ubicación aproximada para adjuntar las coordenadas al reporte técnico
+          y calcular la sucursal más cercana. Solo se lee una vez, cuando tú lo confirmas.</p>
+        <div class="acciones">
+          <button type="button" id="btn-confirmar" class="btn">Compartir mi ubicación</button>
+          <button type="button" id="btn-cancelar" class="btn btn--texto">Prefiero elegir mi zona</button>
+        </div>
+      </section>
+
+      <div id="cargando" class="cargando" hidden>
+        <span class="spinner"></span><span id="cargando-texto"></span>
+      </div>
+
+      <p id="mensaje" class="mensaje" role="alert" hidden></p>
+
+      <!-- Resultado con indicador de calidad -->
+      <section id="resultado" class="resultado" hidden>
+        <span id="badge-precision" class="badge"></span>
+        <dl>
+          <dt>Latitud</dt><dd id="res-lat"></dd>
+          <dt>Longitud</dt><dd id="res-lon"></dd>
+          <dt>Precisión</dt><dd id="res-precision"></dd>
+          <dt>Fijada</dt><dd id="res-hora"></dd>
+        </dl>
+        <a id="enlace-mapa" target="_blank" rel="noopener">Ver en OpenStreetMap ↗</a>
+      </section>
+
+      <!-- Plan B: selector manual -->
+      <section id="selector-manual" class="aviso aviso--neutro" hidden>
+        <label for="select-zona">Selecciona tu zona manualmente</label>
+        <select id="select-zona">
+          <option value="">-- Elige una zona --</option>
+          <option>Centro</option>
+          <option>Zona Norte</option>
+          <option>Zona Sur</option>
+          <option>Zona Oriente</option>
+          <option>Zona Poniente</option>
+        </select>
+        <div id="ayuda-permiso" class="ayuda" hidden>
+          <strong>¿Cómo reactivar el permiso?</strong>
+          <ul>
+            <li><b>Chrome / Android:</b> toca el ícono 🔒 junto a la URL → Permisos → Ubicación → Permitir.</li>
+            <li><b>Safari / iPhone:</b> Ajustes → Safari → Ubicación → Preguntar o Permitir (en PWA instalada, revisa también Ajustes → Privacidad → Localización).</li>
+            <li><b>Firefox:</b> ícono 🔒 → Borrar permisos y recargar.</li>
+          </ul>
+        </div>
+      </section>
+
+      <button type="submit" class="btn">Enviar reporte</button>
+    </form>
+
+    <section class="tarjeta" hidden>
+      <h2>Paquete generado</h2>
+      <pre id="salida"></pre>
+    </section>
+  </main>
+
+  <!-- Orden obligatorio: helper antes que app -->
+  <script src="./geo-helper.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
