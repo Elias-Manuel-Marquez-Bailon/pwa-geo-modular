@@ -78,6 +78,12 @@ function leerUbicacion() {
   mostrarCargando('Obteniendo coordenadas...');
 
   return obtenerUbicacionActual({ enableHighAccuracy: true, timeout: 8000 })
+    .catch((error) => {
+      // Equipos sin GPS: si alta precisión agota el tiempo, reintentamos con Wi-Fi/IP
+      if (error.code !== 3) throw error;
+      ui.cargandoTexto.textContent = 'Sin señal GPS, reintentando con Wi-Fi / IP...';
+      return obtenerUbicacionActual({ enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 });
+    })
     .then((ubicacion) => {
       ubicacionAdjunta = ubicacion;
       renderizarResultadoUbicacion(ubicacion);

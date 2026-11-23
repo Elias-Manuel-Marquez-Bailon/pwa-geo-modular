@@ -1,5 +1,5 @@
 // sw.js - Service Worker con App Shell precacheado
-const CACHE_NAME = 'pwa-geo-v2';
+const CACHE_NAME = 'pwa-geo-v3';
 
 const APP_SHELL = [
   './',
